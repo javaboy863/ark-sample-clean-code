@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ark.weather.platform.infrastructure.repository.db.WeatherFutureInfoMapper">
+    <resultMap id="BaseResultMap" type="com.ark.weather.platform.domain.domain.WeatherFutureInfoPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="subject_type" jdbcType="INTEGER" property="subjectType"/>
+        <id column="date_type" jdbcType="INTEGER" property="dateType"/>
+        <id column="city_id" jdbcType="VARCHAR" property="cityId"/>
+        <id column="station_code" jdbcType="VARCHAR" property="stationCode"/>
+        <id column="station_name" jdbcType="VARCHAR" property="stationName"/>
+        <id column="lat" jdbcType="DECIMAL" property="lat"/>
+        <id column="lng" jdbcType="DECIMAL" property="lng"/>
+        <id column="obs_time" jdbcType="TIMESTAMP" property="obsTime"/>
+        <id column="forecast_time" jdbcType="TIMESTAMP" property="forecastTime"/>
+        <id column="aqi_chn" jdbcType="INTEGER" property="aqiChn"/>
+        <id column="pm25" jdbcType="INTEGER" property="pm25"/>
+        <id column="visibility" jdbcType="DECIMAL" property="visibility"/>
+        <id column="wind_degrees" jdbcType="DECIMAL" property="windDegrees"/>
+        <id column="wind_dir" jdbcType="VARCHAR" property="windDir"/>
+        <id column="wind_speed" jdbcType="DECIMAL" property="windSpeed"/>
+        <id column="wind_level" jdbcType="INTEGER" property="windLevel"/>
+        <id column="temperature" jdbcType="DECIMAL" property="temperature"/>
+        <id column="humidity" jdbcType="INTEGER" property="humidity"/>
+        <id column="precipitation" jdbcType="DECIMAL" property="precipitation"/>
+        <id column="skycon" jdbcType="VARCHAR" property="skycon"/>
+        <id column="skycon_name" jdbcType="VARCHAR" property="skyconName"/>
+        <id column="skycon_day" jdbcType="VARCHAR" property="skyconDay"/>
+        <id column="skycon_day_name" jdbcType="VARCHAR" property="skyconDayName"/>
+        <id column="skycon_night" jdbcType="VARCHAR" property="skyconNight"/>
+        <id column="skycon_night_name" jdbcType="VARCHAR" property="skyconNightName"/>
+        <id column="description" jdbcType="VARCHAR" property="description"/>
+        <id column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <id column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <id column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <id column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+       id, subject_type, date_type, city_id, station_code, station_name, lat, lng, obs_time, forecast_time, aqi_chn, pm25, visibility, wind_degrees, wind_dir,
+       wind_speed, wind_level, temperature, humidity, precipitation, skycon, skycon_name, skycon_day, skycon_day_name, skycon_night, skycon_night_name, description, create_time, create_user, update_time, update_user
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_weather_future_info where id = #{id}
+    </select>
+
+
+    <select id="getBySubjectTypeAndDateTypeAndForecastTime"
+            parameterType="com.ark.weather.platform.domain.domain.WeatherFutureInfoPO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_weather_future_info where subject_type = #{subjectType} and date_type = #{dateType}
+        <if test="cityId != null"> AND city_id = #{cityId} </if>
+        <if test="cityId == null"> AND city_id = '' </if>
+        <if test="stationCode != null"> AND station_code = #{stationCode} </if>
+        <if test="stationCode == null"> AND station_code = '' </if>
+         and forecast_time = #{forecastTime}
+    </select>
+
+
+    <select id="findBySubjectTypeAndDateTypeAndBetweenForecastTime" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        t_weather_future_info
+        WHERE
+        subject_type = #{subjectType} AND date_type = #{dateType}
+        <if test="cityId != null"> AND city_id = #{cityId} </if>
+        <if test="cityId == null"> AND city_id = '' </if>
+        <if test="stationCode != null"> AND station_code = #{stationCode} </if>
+        <if test="stationCode == null"> AND station_code = '' </if>
+        AND forecast_time BETWEEN #{startForecastTime} AND #{endForecastTime}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.ark.weather.platform.domain.domain.WeatherFutureInfoPO">
+        insert into t_weather_future_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subjectType != null">subject_type,</if>
+            <if test="dateType != null">date_type,</if>
+            <if test="cityId != null">city_id,</if>
+            <if test="stationCode != null">station_code,</if>
+            <if test="stationName != null">station_name,</if>
+            <if test="lat != null">lat,</if>
+            <if test="lng != null">lng,</if>
+            <if test="obsTime != null">obs_time,</if>
+            <if test="forecastTime != null">forecast_time,</if>
+            <if test="aqiChn != null">aqi_chn,</if>
+            <if test="pm25 != null">pm25,</if>
+            <if test="visibility != null">visibility,</if>
+            <if test="windDegrees != null">wind_degrees,</if>
+            <if test="windDir != null">wind_dir,</if>
+            <if test="windSpeed != null">wind_speed,</if>
+            <if test="windLevel != null">wind_level,</if>
+            <if test="temperature != null">temperature,</if>
+            <if test="humidity != null">humidity,</if>
+            <if test="precipitation != null">precipitation,</if>
+            <if test="skycon != null">skycon,</if>
+            <if test="skyconName != null">skycon_name,</if>
+            <if test="skyconDay != null">skycon_day,</if>
+            <if test="skyconDayName != null">skycon_day_name,</if>
+            <if test="skyconNight != null">skycon_night,</if>
+            <if test="skyconNightName != null">skycon_night_name,</if>
+            <if test="description != null">description,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="updateUser != null">update_user,</if>
+        </trim>
+        value
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subjectType != null">#{subjectType},</if>
+            <if test="dateType != null">#{dateType},</if>
+            <if test="cityId != null">#{cityId},</if>
+            <if test="stationCode != null">#{stationCode},</if>
+            <if test="stationName != null">#{stationName},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="obsTime != null">#{obsTime},</if>
+            <if test="forecastTime != null">#{forecastTime},</if>
+            <if test="aqiChn != null">#{aqiChn},</if>
+            <if test="pm25 != null">#{pm25},</if>
+            <if test="visibility != null">#{visibility},</if>
+            <if test="windDegrees != null">#{windDegrees},</if>
+            <if test="windDir != null">#{windDir},</if>
+            <if test="windSpeed != null">#{windSpeed},</if>
+            <if test="windLevel != null">#{windLevel},</if>
+            <if test="temperature != null">#{temperature},</if>
+            <if test="humidity != null">#{humidity},</if>
+            <if test="precipitation != null">#{precipitation},</if>
+            <if test="skycon != null">#{skycon},</if>
+            <if test="skyconName != null">#{skyconName},</if>
+            <if test="skyconDay != null">#{skyconDay},</if>
+            <if test="skyconDayName != null">#{skyconDayName},</if>
+            <if test="skyconNight != null">#{skyconNight},</if>
+            <if test="skyconNightName != null">#{skyconNightName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="updateUser != null">#{updateUser},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.ark.weather.platform.domain.domain.WeatherFutureInfoPO">
+        UPDATE t_weather_future_info
+        <set>
+            <if test="subjectType != null">subject_type = #{subjectType},</if>
+            <if test="dateType != null">date_type = #{dateType},</if>
+            <if test="cityId != null">city_id = #{cityId},</if>
+            <if test="stationCode != null">station_code = #{stationCode},</if>
+            <if test="stationName != null">station_name = #{stationName},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="obsTime != null">obs_time = #{obsTime},</if>
+            <if test="forecastTime != null">forecast_time = #{forecastTime},</if>
+            <if test="aqiChn != null">aqi_chn = #{aqiChn},</if>
+            <if test="pm25 != null">pm25 = #{pm25},</if>
+            <if test="visibility != null">visibility = #{visibility},</if>
+            <if test="windDegrees != null">wind_degrees = #{windDegrees},</if>
+            <if test="windDir != null">wind_dir = #{windDir},</if>
+            <if test="windSpeed != null">wind_speed = #{windSpeed},</if>
+            <if test="windLevel != null">wind_level = #{windLevel},</if>
+            <if test="temperature != null">temperature = #{temperature},</if>
+            <if test="humidity != null">humidity = #{humidity},</if>
+            <if test="precipitation != null">precipitation = #{precipitation},</if>
+            <if test="skycon != null">skycon = #{skycon},</if>
+            <if test="skyconName != null">skycon_name = #{skyconName},</if>
+            <if test="skyconDay != null">skycon_day = #{skyconDay},</if>
+            <if test="skyconDayName != null">skycon_day_name = #{skyconDayName},</if>
+            <if test="skyconNight != null">skycon_night = #{skyconNight},</if>
+            <if test="skyconNightName != null">skycon_night_name = #{skyconNightName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+        </set>
+        WHERE id=#{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

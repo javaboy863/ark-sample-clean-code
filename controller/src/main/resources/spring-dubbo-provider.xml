@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="weather-platform-provider" logger="slf4j"/>
+    <dubbo:protocol id="protocol-dubbo" name="dubbo" port="45140"/>
+
+    <dubbo:provider protocol="protocol-dubbo" timeout="1000" filter="-exception" threadpool="fixed" threads="500"
+                    dispatcher="message" retries="0"/>
+
+    <dubbo:registry register="true" protocol="zookeeper" client="zkclient" address="${dubbo.zookeeper}"/>
+
+    <dubbo:service interface="com.ark.weather.platform.api.IWeatherInfoService" ref="weatherInfoRpcServiceImpl" retries="0" version="1.0"/>
+
+</beans>

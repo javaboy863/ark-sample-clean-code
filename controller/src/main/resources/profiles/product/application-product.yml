@@ -1,0 +1,38 @@
+project:
+  name: weather-platform
+server:
+  port: 8080
+spring:
+  application:
+    name: weather-platform
+  datasource:
+    cipher: f42f585c
+    env: prod
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+dubbo:
+  zookeeper:
+es-job:
+  disabled: false
+  zookeeper:
+    address:
+
+########redis#######
+sharding:
+  redis:
+    cluster:
+      namespace: weather-platform
+    mode: masterslave
+    loadbalance: roundrobin
+    connectionTimeout: 2000
+    soTimeout: 2000
+    env: prod
+    cipher: 0e2e0b4c
+    type: sharding
+    threadCoreNum: 8
+    threadMaxNum: 32
+    pool:
+      maxTotal: 50
+      maxIdle: 30
+      minIdle: 10

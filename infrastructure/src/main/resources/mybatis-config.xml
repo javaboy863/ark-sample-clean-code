@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mybatis的配置文件 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 开启驼峰映射 ，否则查询结果不能转成resultType-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+    <typeAliases>
+        <!--项目DataObject对应的包名-->
+        <package name="com.ark.weather.platform.domain.domain"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mybatis/CityInfoMapper.xml"></mapper>
+        <mapper resource="mybatis/WeatherAlertInfoMapper.xml"></mapper>
+        <mapper resource="mybatis/WeatherCurrentInfoMapper.xml"></mapper>
+        <mapper resource="mybatis/WeatherFutureInfoMapper.xml"></mapper>
+    </mappers>
+
+</configuration>

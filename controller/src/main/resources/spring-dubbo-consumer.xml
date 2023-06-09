@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:consumer timeout="3000" check="false" filter="notice" retries="0"/>
+
+    <!-- 门店 -->
+    <dubbo:registry register="true" id="midBasicStationRegistryZK" protocol="zookeeper" client="zkclient"
+                    address="${dubbo.mid-basic-station-registry.zookeeper}"/>
+
+    <!-- 根据条件获取门店列表服务-->
+    <dubbo:reference registry="midBasicStationRegistryZK" id="midWarehouseCascadeRpcService"
+                     interface="com.ark.basic.station.api.MidWarehouseCascadeRpcService" group="mid-basic-station"
+                     version="1.0.0" timeout="2000"/>
+</beans>

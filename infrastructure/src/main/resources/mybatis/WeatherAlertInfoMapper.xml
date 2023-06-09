@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ark.weather.platform.infrastructure.repository.db.WeatherAlertInfoMapper">
+    <resultMap id="BaseResultMap" type="com.ark.weather.platform.domain.domain.WeatherAlertInfoPO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="station_code" jdbcType="VARCHAR" property="stationCode"/>
+        <id column="station_name" jdbcType="VARCHAR" property="stationName"/>
+        <id column="lat" jdbcType="DECIMAL" property="lat"/>
+        <id column="lng" jdbcType="DECIMAL" property="lng"/>
+        <id column="supplier_type" jdbcType="INTEGER" property="supplierType"/>
+        <id column="pub_time" jdbcType="TIMESTAMP" property="pubTime"/>
+        <id column="title" jdbcType="VARCHAR" property="title"/>
+        <id column="content" jdbcType="VARCHAR" property="content"/>
+        <id column="alert_level" jdbcType="VARCHAR" property="alertLevel"/>
+        <id column="alert_name" jdbcType="VARCHAR" property="alertName"/>
+        <id column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <id column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <id column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <id column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, station_code, station_name, lat, lng, supplier_type, pub_time, title, content,
+      alert_level, alert_name, create_time, create_user, update_time, update_user
+    </sql>
+
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.ark.weather.platform.domain.domain.WeatherAlertInfoPO" useGeneratedKeys="true">
+    insert into t_weather_alert_info (station_code, station_name, lat, lng, supplier_type,
+            pub_time, title, content, alert_level, alert_name,
+            create_time, create_user, update_time, update_user)
+    values (#{stationCode,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR}, #{lat,jdbcType=DECIMAL}, #{lng,jdbcType=DECIMAL}, #{supplierType,jdbcType=INTEGER},
+            #{pubTime,jdbcType=TIMESTAMP}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{alertLevel,jdbcType=INTEGER}, #{alertName,jdbcType=VARCHAR},
+         #{createTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR})
+  </insert>
+
+    <select id="count" resultType="int">
+        select count(*) from t_weather_alert_info
+    </select>
+
+</mapper>
